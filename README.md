@@ -48,7 +48,7 @@ Step by step How To user Ti Capsense:
          TICAPS_sckey_run(gSckeys);
        }
 ```
-5. Check if any buttons is detected & denounce or do anything:
+5. Check if any buttons is detected then debounce or do anything:
 ```cpp
       if(gTimer_key.detected){
          LED_TIMER_TOGGLE;
