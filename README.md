@@ -1,4 +1,4 @@
-Step by step How To user Ti Capsense:
+Step by step How To use Ti Capsense:
 ============
 
 1. Define all the single channel key obj:
