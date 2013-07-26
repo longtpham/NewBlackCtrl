@@ -62,17 +62,3 @@ IRR_NecCmd_e IRR_get_command(IRR_Obj *obj)
 	}
 }
 
-_Bool IRR_check_command(IRR_Obj * irr)
-{
-	return (irr->data_ready);
-}
-
-IRR_Input_e IRR_get_input(IRR_Obj *obj)
-{
-	if((*(obj->input_register) & (obj->input_bit)) == 0){
-		return(IRR_Input_Mark);
-	}else{
-		return(IRR_Input_Space);
-	}
-}
-
