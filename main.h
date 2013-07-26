@@ -11,6 +11,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include "TICAPS.h"
+#include "IRremote.h"
 
 #define LED_BACKLIGHT_ON	(P2OUT |= BIT1)
 #define LED_BACKLIGHT_OFF	(P2OUT &= ~BIT1)
@@ -27,6 +28,7 @@
 #define LED_LAMP_TOGGLE		(((P2OUT & BIT2)!= 0) ? LED_LAMP_OFF:LED_LAMP_ON)
 #define LED_PLUSMINUS_TOGGLE	(((P1OUT & BIT2)!= 0) ? LED_PLUSMINUS_OFF:LED_PLUSMINUS_ON)
 #define LED_AUTO_TOGGLE		(((P1OUT & BIT1)!= 0) ? LED_AUTO_OFF:LED_AUTO_ON)
+#define LED_BACKLIGHT_TOGGLE	(((P2OUT & BIT1)!= 0) ? LED_BACKLIGHT_OFF:LED_BACKLIGHT_ON)
 
 #define LED_ALL_ON	LED_BACKLIGHT_ON; LED_TIMER_ON; LED_LAMP_ON; LED_PLUSMINUS_ON;
 #define LED_ALL_OFF	LED_BACKLIGHT_OFF; LED_TIMER_OFF; LED_LAMP_OFF; LED_PLUSMINUS_OFF;
@@ -37,8 +39,16 @@
 #define T_OUT_LOW		(P2OUT &= ~BIT5)
 
 
+
+#define NEW_BLACK_CTRL
+#ifdef NEW_BLACK_CTRL
+#define TP_PLUS_PORT	(P3OUT)
+#define TP_PLUS_BIT		(BIT6)
+#endif
+#ifndef NEW_BLACK_CTRL
 #define TP_PLUS_PORT	(P2OUT)
 #define TP_PLUS_BIT		(BIT3)
+#endif
 #define TP_MINUS_PORT	(P2OUT)
 #define TP_MINUS_BIT	(BIT4)
 #define TP_PW_PORT		(P2OUT)
@@ -106,7 +116,7 @@ typedef struct _MAIN_Obj_
 
 extern MAIN_Obj gMain;
 
-void MainISR_1s(void);
+void MainISR(void);
 void CTRL_run(void);
-
+void MainISR_timer1_capture(void);
 #endif /* MAIN_H_ */

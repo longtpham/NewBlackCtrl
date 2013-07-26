@@ -77,11 +77,12 @@ TICAPS_Sckey_Obj* gSckeys[] = {
 	&gLight_key,
 	&gMinus_key,
 	&gPlus_key,
-	&gAuto_key,
+	//&gAuto_key,
 	NULL   // terminator
 };
 
 MAIN_Obj gMain;
+IRR_Obj gIRR;
 
 #ifdef DEBUGGING_TOUCH
 uint16_t data[16];
@@ -99,8 +100,10 @@ int main(void)
 	gMain.initialized = 0;
 	//uint16_t i;
 	Grace_init();                   // Activate Grace-generated configuration
+	__disable_interrupt();
 	//All TP are now high
-	//while(LED_INPUT_STATE)
+	//****************************************************
+	while(LED_INPUT_STATE)
 	{
 
 	}
@@ -188,41 +191,49 @@ void FLASH_read_segC(uint16_t value[16])
 void CTRL_run(void)
 {
 	CTRL_Buttons_e bt_detected = CTRL_Buttons_none;
-
+	IRR_NecCmd_e 	irr_cmd	= IRR_get_command(&gIRR);
 
 	if(gTimer_key.detected){
-		LED_TIMER_TOGGLE;
 		bt_detected = CTRL_Buttons_Timer;
 	}
 	if(gLight_key.detected){
-		LED_LAMP_TOGGLE;
 		bt_detected = CTRL_Buttons_Lamp;
 	}
 	if(gPlus_key.detected){
-		LED_PLUSMINUS_TOGGLE;
 		bt_detected = CTRL_Buttons_Plus;
 	}
 	if(gMinus_key.detected){
-		LED_PLUSMINUS_TOGGLE;
 		bt_detected = CTRL_Buttons_Minus;
 	}
-	if(gAuto_key.detected){
-		LED_AUTO_TOGGLE;
-		bt_detected = CTRL_Buttons_Auto;
+
+	if(irr_cmd != 0){
+		if(irr_cmd == IRR_NecCmd_Light){
+			bt_detected = CTRL_Buttons_Lamp;
+		}else if (irr_cmd == IRR_NecCmd_Timer){
+			bt_detected = CTRL_Buttons_Timer;
+		}else if(irr_cmd == IRR_NecCmd_Minus){
+			bt_detected = CTRL_Buttons_Minus;
+		}else if(irr_cmd == IRR_NecCmd_Plus){
+			bt_detected = CTRL_Buttons_Plus;
+		}
 
 	}
 
 	switch(bt_detected){
 	case CTRL_Buttons_Timer:
+		LED_TIMER_TOGGLE;
 		BUTTON_TIMER_DETECTED;
 		break;
 	case CTRL_Buttons_Plus:
+		LED_PLUSMINUS_TOGGLE;
 		BUTTON_PLUS_DETECTED;
 		break;
 	case CTRL_Buttons_Minus:
+		LED_PLUSMINUS_TOGGLE;
 		BUTTON_MINUS_DETECTED;
 		break;
 	case CTRL_Buttons_Lamp:
+		LED_LAMP_TOGGLE;
 		BUTTON_LAMP_DETECTED;
 		break;
 
@@ -236,17 +247,10 @@ void CTRL_run(void)
 		break;
 
 	};
-
-/*
-	if(LED_INPUT_STATE){
-		LED_ALL_ON;
-	}else{
-		LED_ALL_OFF;
-	}
-*/
 }
 
-void MainISR_1s(void)
+
+void MainISR(void)  //16kHz ~ 62.5ms
 {
 	static uint8_t cnt_16hz=0;
 	static uint8_t cnt_16hz_2 = 0;
@@ -270,6 +274,11 @@ void MainISR_1s(void)
 	}else{
 		cnt_16hz_2++;
 	}
+}
 
+void MainISR_timer1_capture(void)
+{
 
+	IRR_capture_ISR(&gIRR);
+	//LED_BACKLIGHT_TOGGLE;
 }

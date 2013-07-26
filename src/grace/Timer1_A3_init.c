@@ -37,7 +37,21 @@ void Timer1_A3_graceInit(void)
     /* 
      * TA1CCTL0, Capture/Compare Control Register 0
      * 
-     * CM_0 -- No Capture
+     * CM_2 -- Falling Edge
+     * CCIS_1 -- CCIxB
+     * SCS -- Sychronous Capture
+     * ~SCCI -- Latched capture signal (read)
+     * CAP -- Capture mode
+     * OUTMOD_0 -- PWM output mode: 0 - OUT bit value
+     * 
+     * Note: ~SCCI indicates that SCCI has value zero
+     */
+    TA1CCTL0 = CM_2 | CCIS_1 | SCS | CAP | OUTMOD_0 | CCIE;
+
+    /* 
+     * TA1CCTL1, Capture/Compare Control Register 1
+     * 
+     * CM_3 -- Both Edges
      * CCIS_0 -- CCIxA
      * ~SCS -- Asynchronous Capture
      * ~SCCI -- Latched capture signal (read)
@@ -46,19 +60,16 @@ void Timer1_A3_graceInit(void)
      * 
      * Note: ~<BIT> indicates that <BIT> has value zero
      */
-    TA1CCTL0 = CM_0 | CCIS_0 | OUTMOD_0 | CCIE;
-
-    /* TA1CCR0, Timer_A Capture/Compare Register 0 */
-    TA1CCR0 = 799;
+    TA1CCTL1 = CM_3 | CCIS_0 | OUTMOD_0;
 
     /* 
      * TA1CTL, Timer_A3 Control Register
      * 
      * TASSEL_2 -- SMCLK
      * ID_0 -- Divider - /1
-     * MC_1 -- Up Mode
+     * MC_2 -- Continuous Mode
      */
-    TA1CTL = TASSEL_2 | ID_0 | MC_1 | TAIE;
+    TA1CTL = TASSEL_2 | ID_0 | MC_2 | TACLR;
 
     /* USER CODE START (section: Timer1_A3_graceInit_epilogue) */
     /* User code */

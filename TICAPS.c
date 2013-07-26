@@ -59,7 +59,7 @@ void TICAPS_sckey_read_raw(TICAPS_Sckey_Obj *obj)
 	//configure TIMERA0 Capture 0  (also clear capture Interupt Flag: CCIFG)
 	TA0CCTL0 = CM_1 + CCIS_1 + CAP;     // Capture on rising Edges (CM_1) of ACLK (CCIS_1), Capture mode (CAP)
 
-	__disable_interrupt();
+	//__disable_interrupt();
 	//configure TIMERA0 counter and begin counting PinOsc
 	TA0CTL = TASSEL_3 + MC_2 + TACLR;   	// TASSEL_3: Clk source from PinOsc ()
 						// MC_2: Continuous mode (),
@@ -71,7 +71,7 @@ void TICAPS_sckey_read_raw(TICAPS_Sckey_Obj *obj)
 	}
 	*(obj->inputPxsel2Register) &= ~ (obj->inputBits);  //turn pin into normal IO -> disable PinOsc  <- MUST STOP PinOsc or touch will not work.
 	TA0CTL = 0;                     // Halt Timer
-	__enable_interrupt();
+	//__enable_interrupt();
 
 	obj->meas_count = TACCR0; // Save Measured
 } // end of TICAPS_sckey_read_raw() function
@@ -129,7 +129,5 @@ void TICAPS_sckey_run(TICAPS_Sckey_Obj **scKeys)
 		if(pKey->max_delta < pKey->delta)
 			pKey->max_delta = pKey->delta;
 #endif
-
 	}
-
 } // end of  TICAPS_sckey_run() function

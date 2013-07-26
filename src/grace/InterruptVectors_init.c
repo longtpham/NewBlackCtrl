@@ -42,20 +42,10 @@ void InterruptVectors_graceInit(void)
 __interrupt void TIMER1_A0_ISR_HOOK(void)
 {
     /* USER CODE START (section: TIMER1_A0_ISR_HOOK) */
-    /* replace this comment with your code */
+	MainISR_timer1_capture();
     /* USER CODE END (section: TIMER1_A0_ISR_HOOK) */
 }
 
-/*
- *  ======== Timer1_A3 Interrupt Service Routine ======== 
- */
-#pragma vector=TIMER1_A1_VECTOR
-__interrupt void TIMER1_A1_ISR_HOOK(void)
-{
-    /* USER CODE START (section: TIMER1_A1_ISR_HOOK) */
-    _NOP();
-    /* USER CODE END (section: TIMER1_A1_ISR_HOOK) */
-}
 
 /*
  *  ======== Watchdog Timer Interval Interrupt Handler Generation ========
@@ -64,6 +54,15 @@ __interrupt void TIMER1_A1_ISR_HOOK(void)
 __interrupt void WDT_ISR_HOOK(void)
 {
     /* USER CODE START (section: WDT_ISR_HOOK) */
-	MainISR_1s();
+	__enable_interrupt();  //make sure other interupt can stop
+	MainISR();
     /* USER CODE END (section: WDT_ISR_HOOK) */
 }
+/*
+ * ======== Preserved user code snippets ========
+ */
+#if 0
+    /* USER CODE START (section: TIMER1_A1_ISR_HOOK) */
+	LED_BACKLIGHT_TOGGLE;
+    /* USER CODE END (section: TIMER1_A1_ISR_HOOK) */
+#endif

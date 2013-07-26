@@ -70,8 +70,11 @@ void GPIO_graceInit(void)
     /* Port 2 Output Register */
     P2OUT = BIT3 | BIT4 | BIT5;
 
+    /* Port 2 Port Select Register */
+    P2SEL = BIT3 | BIT6 | BIT7;
+
     /* Port 2 Direction Register */
-    P2DIR = BIT0 | BIT1 | BIT2 | BIT3 | BIT4 | BIT5;
+    P2DIR = BIT1 | BIT2 | BIT4 | BIT5;
 
     /* Port 2 Interrupt Edge Select Register */
     P2IES = 0;
@@ -83,7 +86,7 @@ void GPIO_graceInit(void)
     P3OUT = BIT3 | BIT4 | BIT5;
 
     /* Port 3 Direction Register */
-    P3DIR = BIT0 | BIT1 | BIT2 | BIT4;
+    P3DIR = BIT0 | BIT1 | BIT2 | BIT4 | BIT6;
 
     /* Port 3 Resistor Enable Register */
     P3REN = BIT3 | BIT5;

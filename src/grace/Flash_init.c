@@ -38,16 +38,16 @@ void Flash_graceInit(void)
      * Flash Memory Control Register 2
      * 
      * FSSEL_1 -- MCLK
-     * FN5 -- Flash controller clock divider bit 5
-     * ~FN4 -- Flash controller clock divider bit 4
-     * FN3 -- Flash controller clock divider bit 3
-     * ~FN2 -- Flash controller clock divider bit 2
-     * FN1 -- Flash controller clock divider bit 1
+     * ~FN5 -- Flash controller clock divider bit 5
+     * FN4 -- Flash controller clock divider bit 4
+     * ~FN3 -- Flash controller clock divider bit 3
+     * FN2 -- Flash controller clock divider bit 2
+     * ~FN1 -- Flash controller clock divider bit 1
      * FN0 -- Flash controller clock divider bit 0
      * 
      * Note: ~<BIT> indicates that <BIT> has value zero
      */
-    FCTL2 = FWKEY | FSSEL_1 | FN5 | FN3 | FN1 | FN0;
+    FCTL2 = FWKEY | FSSEL_1 | FN4 | FN2 | FN0;
 
     /* USER CODE START (section: Flash_graceInit_epilogue) */
     /* User code */

@@ -41,7 +41,7 @@ void System_graceInit(void)
         IFG1 &= ~OFIFG;
 
         // 50us delay
-        __delay_cycles(800);
+        __delay_cycles(400);
     } while (IFG1 & OFIFG);
 
     /* 

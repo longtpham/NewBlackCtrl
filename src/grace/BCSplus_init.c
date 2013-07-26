@@ -39,24 +39,23 @@ void BCSplus_graceInit(void)
      * 
      * SELM_0 -- DCOCLK
      * DIVM_0 -- Divide by 1
-     * ~SELS -- DCOCLK
+     * SELS -- XT2CLK when XT2 oscillator present. LFXT1CLK or VLOCLK when XT2 oscillator not present
      * DIVS_0 -- Divide by 1
      * ~DCOR -- DCO uses internal resistor
      * 
-     * Note: ~<BIT> indicates that <BIT> has value zero
+     * Note: ~DCOR indicates that DCOR has value zero
      */
-    BCSCTL2 = SELM_0 | DIVM_0 | DIVS_0;
+    BCSCTL2 = SELM_0 | DIVM_0 | SELS | DIVS_0;
 
-    if (CALBC1_16MHZ != 0xFF) {
+    if (CALBC1_8MHZ != 0xFF) {
         /* Adjust this accordingly to your VCC rise time */
         __delay_cycles(100000);
 
-        /* Follow recommended flow. First, clear all DCOx and MODx bits. Then
-         * apply new RSELx values. Finally, apply new DCOx and MODx bit values.
-         */
+        // Follow recommended flow. First, clear all DCOx and MODx bits. Then
+        // apply new RSELx values. Finally, apply new DCOx and MODx bit values.
         DCOCTL = 0x00;
-        BCSCTL1 = CALBC1_16MHZ;     /* Set DCO to 16MHz */
-        DCOCTL = CALDCO_16MHZ;
+        BCSCTL1 = CALBC1_8MHZ;      /* Set DCO to 8MHz */
+        DCOCTL = CALDCO_8MHZ;
     }
 
     /* 
