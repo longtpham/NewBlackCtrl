@@ -83,9 +83,8 @@ typedef struct _IRR_Obj_
 
 	uint8_t             	input_bit;		//!<input bit ex: if(*input_register & input_bit)
 
+
 	IRR_Receive_State_e 	state;
-	
-	uint8_t 		tick_cnt100us;
 
 	uint8_t			bit_cnt;
 	

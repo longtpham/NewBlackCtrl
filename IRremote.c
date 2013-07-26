@@ -9,11 +9,12 @@
 
 
 
-uint16_t capture_data;
+//TA1CCR0 is config to capture timer A1 at every falling edge.
+//Put this func into the ISR to receive IR command.
 void IRR_capture_ISR(IRR_Obj * obj)
 {
 
-	capture_data = TA1CCR0; //get capture data
+	uint16_t capture_data = TA1CCR0; //get capture data
 	TA1CTL |= TACLR; //clear timer1 counter
 	//TA1CCTL0 &= ~(CCIFG);
 
