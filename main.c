@@ -17,15 +17,19 @@ typedef enum {
 	CTRL_Buttons_Auto
 } CTRL_Buttons_e;
 
-//#define TICAPS_NUM_OF_SCKEY	5
-//654
-#define TIMER_THRESHOLD		(418)
-//1016
-#define PLUS_THRESHOLD		(538)
-//932
-#define MINUS_THRESHOLD		(488)
-//946
-#define LIGHT_THRESHOLD		(488)
+#define TIMER_MAX_DELTA		(1588)
+#define LIGHT_MAX_DELTA		(1248)
+#define MINUS_MAX_DELTA		(1288)
+#define PLUS_MAX_DELTA		(1668)
+
+//max delta = 1584
+#define TIMER_THRESHOLD		(2*TIMER_MAX_DELTA/3)
+//max delta 1670
+#define PLUS_THRESHOLD		(2*PLUS_MAX_DELTA/3)
+//max delta 1070
+#define MINUS_THRESHOLD		(2*MINUS_MAX_DELTA/3)
+//max delta = 1249
+#define LIGHT_THRESHOLD		(10*LIGHT_MAX_DELTA/16)
 //931
 #define AUTO_THRESHOLD		(488)
 
@@ -123,6 +127,8 @@ int main(void)
 	while(1)
 	{
 		gMain.initialized = 1;
+		TICAPS_sckey_run(gSckeys);
+		CTRL_run();
 
 #ifdef DEBUGGING_TOUCH
 
@@ -206,14 +212,18 @@ void CTRL_run(void)
 		bt_detected = CTRL_Buttons_Minus;
 	}
 
-	if(irr_cmd != 0){
-		if(irr_cmd == IRR_NecCmd_Light){
+	if(irr_cmd != IRR_NecCmd_None){
+		if((irr_cmd == IRR_NecCmd_Light)
+			|| (irr_cmd == IRR_NecCmd_OnOff))
+		{
 			bt_detected = CTRL_Buttons_Lamp;
 		}else if (irr_cmd == IRR_NecCmd_Timer){
 			bt_detected = CTRL_Buttons_Timer;
 		}else if(irr_cmd == IRR_NecCmd_Minus){
 			bt_detected = CTRL_Buttons_Minus;
-		}else if(irr_cmd == IRR_NecCmd_Plus){
+		}else if((irr_cmd == IRR_NecCmd_Plus)
+			|| (irr_cmd == IRR_NecCmd_Auto))
+		{
 			bt_detected = CTRL_Buttons_Plus;
 		}
 
@@ -221,19 +231,19 @@ void CTRL_run(void)
 
 	switch(bt_detected){
 	case CTRL_Buttons_Timer:
-		LED_TIMER_TOGGLE;
+		//LED_TIMER_TOGGLE;
 		BUTTON_TIMER_DETECTED;
 		break;
 	case CTRL_Buttons_Plus:
-		LED_PLUSMINUS_TOGGLE;
+		//LED_PLUSMINUS_TOGGLE;
 		BUTTON_PLUS_DETECTED;
 		break;
 	case CTRL_Buttons_Minus:
-		LED_PLUSMINUS_TOGGLE;
+		//LED_PLUSMINUS_TOGGLE;
 		BUTTON_MINUS_DETECTED;
 		break;
 	case CTRL_Buttons_Lamp:
-		LED_LAMP_TOGGLE;
+		//LED_LAMP_TOGGLE;
 		BUTTON_LAMP_DETECTED;
 		break;
 
@@ -267,9 +277,10 @@ void MainISR(void)  //16kHz ~ 62.5ms
 
 	if(cnt_16hz_2 == 1){
 		cnt_16hz_2=0;
+		//TICAPS_sckey_run(gSckeys);
 		if(gMain.initialized == 1){
-			TICAPS_sckey_run(gSckeys);
-			CTRL_run();
+			//TICAPS_sckey_run(gSckeys);
+			//CTRL_run();
 		}
 	}else{
 		cnt_16hz_2++;

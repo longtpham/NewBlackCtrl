@@ -51,7 +51,7 @@ typedef enum
 	IRR_NecCmd_Minus = 0xF50ADF20,
 	IRR_NecCmd_Light = 0xE51ADF20,
 	IRR_NecCmd_Timer = 0xE619DF20,
-	IRR_NecCmd_Auto  = 0xFD02DF20,
+	IRR_NecCmd_Auto  = 0xF609DF20,
 	IRR_NecCmd_OnOff = 0xFD02DF20,
 } IRR_NecCmd_e;
 
@@ -79,9 +79,9 @@ typedef enum
 //!         
 typedef struct _IRR_Obj_
 {
-	uint8_t 		*input_register;   	//!< Port Input regs
+	//uint8_t 		*input_register;   	//!< Port Input regs
 
-	uint8_t             	input_bit;		//!<input bit ex: if(*input_register & input_bit)
+	//uint8_t             	input_bit;		//!<input bit ex: if(*input_register & input_bit)
 
 
 	IRR_Receive_State_e 	state;

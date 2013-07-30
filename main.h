@@ -33,26 +33,47 @@
 #define LED_ALL_ON	LED_BACKLIGHT_ON; LED_TIMER_ON; LED_LAMP_ON; LED_PLUSMINUS_ON;
 #define LED_ALL_OFF	LED_BACKLIGHT_OFF; LED_TIMER_OFF; LED_LAMP_OFF; LED_PLUSMINUS_OFF;
 
-#define LED_INPUT_STATE		((P3IN & BIT5) != 0)
+#define LED_INPUT_STATE		((P3IN & BIT6) != 0)
 
-#define T_OUT_HIGH		(P2OUT |= BIT5)
-#define T_OUT_LOW		(P2OUT &= ~BIT5)
+
+
+
+//white control
+//LED PW MINUS PLUS LIGHT
+
+//Universal board
+//LED T1  T2  T3  T4
+
+//Black control
+//LED  T TP0 TP1  TP2
+//LED input
+//T TP0 TP1 --> Button output
+//TP2       -->  Timing for Universal board
+
+
+#define T_PORT			(P3OUT)
+#define T_BIT			(BIT5)
+#define TP0_PORT		(P2OUT)
+#define TP0_BIT			(BIT5)
+#define TP1_PORT		(P2OUT)
+#define TP1_BIT			(BIT4)
 
 
 
 #define NEW_BLACK_CTRL
 #ifdef NEW_BLACK_CTRL
-#define TP_PLUS_PORT	(P3OUT)
-#define TP_PLUS_BIT		(BIT6)
+#define TP_PLUS_PORT		(TP1_PORT)
+#define TP_PLUS_BIT		(TP1_BIT)
 #endif
 #ifndef NEW_BLACK_CTRL
 #define TP_PLUS_PORT	(P2OUT)
 #define TP_PLUS_BIT		(BIT3)
 #endif
-#define TP_MINUS_PORT	(P2OUT)
-#define TP_MINUS_BIT	(BIT4)
-#define TP_PW_PORT		(P2OUT)
-#define TP_PW_BIT		(BIT5)
+
+#define TP_MINUS_PORT		(TP0_PORT)
+#define TP_MINUS_BIT		(TP0_BIT)
+#define TP_PW_PORT		(T_PORT)
+#define TP_PW_BIT		(T_BIT)
 
 #define TP_PLUS_HIGH	(TP_PLUS_PORT |= TP_PLUS_BIT)
 #define TP_PLUS_LOW		(TP_PLUS_PORT &= ~TP_PLUS_BIT)

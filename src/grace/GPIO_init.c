@@ -86,7 +86,7 @@ void GPIO_graceInit(void)
     P3OUT = BIT3 | BIT4 | BIT5;
 
     /* Port 3 Direction Register */
-    P3DIR = BIT0 | BIT1 | BIT2 | BIT4 | BIT6;
+    P3DIR = BIT0 | BIT1 | BIT2 | BIT4 | BIT5;
 
     /* Port 3 Resistor Enable Register */
     P3REN = BIT3 | BIT5;
