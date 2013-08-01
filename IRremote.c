@@ -38,18 +38,21 @@ void IRR_capture_ISR(IRR_Obj * obj)
 			obj->bit_cnt = 0;
 		}
 
+
 		if(obj->bit_cnt == 32){
 			obj->state = IRR_Receive_State_Idle;
 			obj->bit_cnt = 0;
 			obj->recv_data = obj->raw_data;
 			obj->data_ready = 1;
 		}
+		//obj->tmpDat[obj->bit_cnt] = capture_data;
 		break;
 	default:
 		obj->state = IRR_Receive_State_Idle;
 		obj->bit_cnt = 0;
 		break;
 	}
+
 	//TA1CCTL0 &= ~(COV);
 }
 

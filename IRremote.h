@@ -25,7 +25,7 @@
 #define IRR_NEC_BIT_ZERO_LEN_us			(IRR_NEC_BIT_MARK_us + IRR_NEC_BIT_ZERO_SPACE_us)
 
 
-#define IRR_TOLERANCE				(0.25)
+#define IRR_TOLERANCE				(0.22)
 
 #define IRR_TOLERANCE_MAX_LEN_us(us)		(uint16_t) ( us*(1+IRR_TOLERANCE) )
 #define IRR_TOLERANCE_MIN_LEN_us(us)		(uint16_t) ( us*(1-IRR_TOLERANCE) )
@@ -83,7 +83,7 @@ typedef struct _IRR_Obj_
 
 	//uint8_t             	input_bit;		//!<input bit ex: if(*input_register & input_bit)
 
-
+	//uint16_t 		tmpDat[33];
 	IRR_Receive_State_e 	state;
 
 	uint8_t			bit_cnt;

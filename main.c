@@ -101,6 +101,7 @@ void FLASH_read_segC (uint16_t value[16]);
  */
 int main(void)
 {
+
 	gMain.initialized = 0;
 	//uint16_t i;
 	Grace_init();                   // Activate Grace-generated configuration
@@ -127,8 +128,8 @@ int main(void)
 	while(1)
 	{
 		gMain.initialized = 1;
-		TICAPS_sckey_run(gSckeys);
-		CTRL_run();
+		//TICAPS_sckey_run(gSckeys);
+		//CTRL_run();
 
 #ifdef DEBUGGING_TOUCH
 
@@ -248,11 +249,13 @@ void CTRL_run(void)
 		break;
 
 	default:
+
 		if(LED_INPUT_STATE){
 			LED_ALL_ON;
 		}else{
 			LED_ALL_OFF;
 		}
+
 		BUTTON_NONE_DETECTED;
 		break;
 
@@ -265,7 +268,7 @@ void MainISR(void)  //16kHz ~ 62.5ms
 	static uint8_t cnt_16hz=0;
 	static uint8_t cnt_16hz_2 = 0;
 
-	if(cnt_16hz == 16){
+	if(cnt_16hz == 15){
 		cnt_16hz = 0;
 		OUTPUT_SEC_TOGGLE;
 	#ifdef DEBUGGING
@@ -279,8 +282,8 @@ void MainISR(void)  //16kHz ~ 62.5ms
 		cnt_16hz_2=0;
 		//TICAPS_sckey_run(gSckeys);
 		if(gMain.initialized == 1){
-			//TICAPS_sckey_run(gSckeys);
-			//CTRL_run();
+			TICAPS_sckey_run(gSckeys);
+			CTRL_run();
 		}
 	}else{
 		cnt_16hz_2++;

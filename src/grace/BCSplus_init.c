@@ -49,7 +49,7 @@ void BCSplus_graceInit(void)
 
     if (CALBC1_8MHZ != 0xFF) {
         /* Adjust this accordingly to your VCC rise time */
-        __delay_cycles(100000);
+        __delay_cycles(88000);
 
         // Follow recommended flow. First, clear all DCOx and MODx bits. Then
         // apply new RSELx values. Finally, apply new DCOx and MODx bit values.
